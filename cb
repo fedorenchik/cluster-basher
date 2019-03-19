@@ -1,0 +1,25 @@
+#!/bin/bash
+
+GLOBAL_CBRC="$HOME/.cbrc"
+LOCAL_CBRC="./.cbrc"
+[ -f $GLOBAL_CBRC ] && source $GLOBAL_CBRC
+[ -f $LOCAL_CBRC ] && source $LOCAL_CBRC
+
+[ "$CB_CLUSTER" == "" ] && CB_CLUSTER="localhost"
+
+COMMANDS="$@"
+
+OUTPUT_DIR=/tmp/cluster-basher
+mkdir -p $OUTPUT_DIR
+
+echo "Cluster: $(echo $CB_CLUSTER | wc -w): $CB_CLUSTER"
+
+for machine in $CB_CLUSTER; do
+	ssh $machine $COMMANDS > $OUTPUT_DIR/$machine.out &
+done
+
+wait
+
+for machine in $CB_CLUSTER; do
+	echo -n "$machine: " && cat $OUTPUT_DIR/$machine.out
+done
