@@ -15,7 +15,7 @@ mkdir -p $OUTPUT_DIR
 echo "Cluster: $(echo $CB_CLUSTER | wc -w): $CB_CLUSTER"
 
 for machine in $CB_CLUSTER; do
-	ssh $machine $COMMANDS > $OUTPUT_DIR/$machine.out &
+	ssh $machine $COMMANDS > $OUTPUT_DIR/$machine.out 2>&1 &
 done
 
 wait
