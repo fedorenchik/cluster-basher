@@ -1,6 +1,6 @@
 # cluster-basher
 
-Cluster manager written in pure Bash script.
+Crude cluster manager written in pure Bash script.
 
 # How to use:
 
